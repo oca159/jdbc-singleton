@@ -51,14 +51,14 @@ public class JDBC {
     /**
      * Method that shows the errors thrown by the singleton
      * 
-     * @param {String}    Message
-     * @param {Exception} e
-     * @return void
+     * @param  {String}    Message
+     * @option {Exception} e
+     * @return  void
      **/
     
     private static void errorHandler(String message, Exception e) {
         System.out.println(message);  
-        System.out.println(e.getMessage());   
+        if (e != null) System.out.println(e.getMessage());   
     }
 
     /**
@@ -83,5 +83,26 @@ public class JDBC {
             loadConnection();
         }
         return connection;
+    }
+    
+    /**
+     * Static method that close the connection to the database
+     * 
+     * @return void
+     **/
+    
+    public static void closeConnection() {
+        if (connection == null) {
+            errorHandler("No connection found", null);
+        }
+        else {
+            try {
+                connection.close();
+                connection = null;
+            }
+            catch (SQLException e) {
+                errorHandler("Failed to close the connection", e);
+            }
+        }
     }
 }
